@@ -6,17 +6,9 @@ app = Flask(__name__)
 
 cors = CORS(app)
 
-@app.route("/",methods=['POST'])
+@app.route("/")
 def index():
-        image = request.files["imgFile"]
-        print(image)
-        image.save(image.filename)
-        
-        return jsonify({'success': True, 'message': 'Valid user'})
-
-def main():
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="127.0.0.1",port=port, debug=True)
+        return jsonify({'success': True, 'message': 'Active'})
 
 if __name__ == "__main__":
-    main()
+    app.run()
