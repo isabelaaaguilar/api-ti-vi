@@ -11,7 +11,8 @@ def home():
         upload_image_path = os.path.join(file.filename)
         print(upload_image_path)
         file.save(upload_image_path)
+        os.remove(upload_image_path)
         return jsonify({'Teste':'Sucesso'})
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
