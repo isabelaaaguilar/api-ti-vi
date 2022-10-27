@@ -7,8 +7,11 @@ cors = CORS(app)
 
 @app.route("/")
 def home():
-        return jsonify({'name':'Jimit',
-                    'address':'India'})
+        file = request.files["image"]
+        upload_image_path = os.path.join(file.filename)
+        print(upload_image_path)
+        file.save(upload_image_path)
+        return jsonify({'Teste':'Sucesso'})
 
 if __name__ == "__main__":
     app.run()
