@@ -5,7 +5,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 cors = CORS(app)
 
-@app.route("/")
+@app.route("/", methods=["POST"])
 def home():
         file = request.files["image"]
         upload_image_path = os.path.join(file.filename)
