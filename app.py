@@ -10,5 +10,4 @@ def home():
         return jsonify({'name':'Jimit',
                     'address':'India'})
 
-if __name__ == '__main__':
-    app.run()
+app.run()
