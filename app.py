@@ -9,7 +9,7 @@ cors = CORS(app)
 STATIC_FOLDER = "static"
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-cnn_model = tf.keras.models.load_model(STATIC_FOLDER + "/models/" + "galaxy-convnet-v2.h5")
+cnn_model = tf.keras.models.load_model(STATIC_FOLDER + "/models/" + "classify_stars_and_galaxies.h5")
 
 IMAGE_SIZE = 150
 
