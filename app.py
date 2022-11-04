@@ -51,25 +51,22 @@ def home():
     resultado = classifica(files)
     p.close()
     p.join
-    fim = time.time() - inicio
-    print("tempo total", fim)
-
+    fim = time.time()
+    print(f'Tempo total de execução {round(fim-inicio,2)} segundos')
     return resultado
+    
 
-def classifica(files):
+def classifica(files, ):
+    classifications=[]
     for file in files:
         upload_image_path = os.path.join(file.filename)
-        #print(upload_image_path)
         file.save(upload_image_path)
         label, prob = classify(cnn_model, upload_image_path)
         prob = round((prob * 100), 2)
-        #print(prob)
+        classifications.append({'label': label,'percent':prob})
         os.remove(upload_image_path)
-        resultado = jsonify({'label': label,
-                            'percent':prob})
-
-    return resultado
-
+    return jsonify(classifications)
 
 if __name__ == "__main__":
     app.run(debug=True)
+
