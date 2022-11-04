@@ -36,7 +36,7 @@ def classify(model, image_path):
     )
 
     prob = model.predict(preprocessed_imgage)
-    label = "Galaxia" if prob[0][0] >= 0.5 else "Estrela"
+    label = "Galáxia" if prob[0][0] >= 0.5 else "Estrela"
     classified_prob = prob[0][0] if prob[0][0] >= 0.5 else 1 - prob[0][0]
 
     return label, classified_prob
