@@ -2,6 +2,8 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import tensorflow as tf
+import time
+from multiprocessing import Pool
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -43,16 +45,31 @@ def classify(model, image_path):
 
 @app.route("/", methods=["POST"])
 def home():
-    file = request.files["image"]
-    upload_image_path = os.path.join(file.filename)
-    print(upload_image_path)
-    file.save(upload_image_path)
-    label, prob = classify(cnn_model, upload_image_path)
-    prob = round((prob * 100), 2)
-    print(prob)
-    os.remove(upload_image_path)
-    return jsonify({'label': label,
-                    'percent':prob})
+    files = request.files.getlist("image")
+    inicio = time.time()
+    p = Pool()
+    resultado = classifica(files)
+    p.close()
+    p.join
+    fim = time.time() - inicio
+    print("tempo total", fim)
+
+    return resultado
+
+def classifica(files):
+    for file in files:
+        upload_image_path = os.path.join(file.filename)
+        #print(upload_image_path)
+        file.save(upload_image_path)
+        label, prob = classify(cnn_model, upload_image_path)
+        prob = round((prob * 100), 2)
+        #print(prob)
+        os.remove(upload_image_path)
+        resultado = jsonify({'label': label,
+                            'percent':prob})
+
+    return resultado
+
 
 if __name__ == "__main__":
     app.run(debug=True)
