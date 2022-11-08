@@ -65,7 +65,7 @@ def home():
         #file.save(upload_image_path)
     all_image_path = [path.join('images', p) for p in listdir('images') if path.isfile(path.join('images', p))]
     
-    with Pool(10) as p:
+    with Pool(1) as p:
         result = p.map(multi_thread_classify, all_image_path)
 
     fim = time.time()
