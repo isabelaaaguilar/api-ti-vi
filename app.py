@@ -1,4 +1,5 @@
 import os
+from os import path, listdir
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import tensorflow as tf
@@ -45,13 +46,14 @@ def classify(model, image_path):
 def home():
     files = request.files.getlist("image")
     classifications=[]
-    for file in files:
-        upload_image_path = os.path.join(file.filename)
-        file.save(upload_image_path)
-        label, prob = classify(cnn_model, upload_image_path)
+    all_image_path = [path.join('images', p) for p in listdir('images') if path.isfile(path.join('images', p))]
+    for file in  all_image_path:
+        #upload_image_path = os.path.join(file.filename)
+        #file.save(upload_image_path)
+        label, prob = classify(cnn_model, file)
         prob = round((prob * 100), 2)
         classifications.append({'label': label,'percent':prob})
-        os.remove(upload_image_path)
+        #os.remove(upload_image_path)
     return jsonify(classifications)
 
 if __name__ == "__main__":
