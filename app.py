@@ -62,11 +62,11 @@ def home():
     for file in files:
         upload_image_path = os.path.join(file.filename)
         files_path.append( upload_image_path )
-        #file.save(upload_image_path)
-    all_image_path = [path.join('images', p) for p in listdir('images') if path.isfile(path.join('images', p))]
+        file.save(upload_image_path)
+    #all_image_path = [path.join('images', p) for p in listdir('images') if path.isfile(path.join('images', p))]
     
     with Pool(1) as p:
-        result = p.map(multi_thread_classify, all_image_path)
+        result = p.map(multi_thread_classify, files_path)
 
     fim = time.time()
     print(f'Tempo total de execução {round(fim-inicio,2)} segundos')
