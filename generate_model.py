@@ -21,16 +21,16 @@ labels = [path.split('.')[0][-1:] for path in all_image_path]
 
 all_image_labels = [dict[label] for label in labels]
 
-print(all_image_labels)
+#print(all_image_labels)
 
 ds = tf.data.Dataset.from_tensor_slices((all_images, all_image_labels))
 
 mobile_net = tf.keras.applications.MobileNetV2(input_shape=(150, 150, 3), include_top=False)
-mobile_net.trainable=False # this told the model not to train the mobile_net.
+mobile_net.trainable=False # this told the model not to train the mobile_net.96, 128, 160, 192
 
 cnn_model = keras.models.Sequential([
     mobile_net, # mobile_net is low-level layers
-    keras.layers.GlobalAveragePooling2D(), 
+    keras.layers.MaxPooling2D(), 
     keras.layers.Flatten(), 
     keras.layers.Dense(64, activation="relu"), # fully-connected hidden layer 
     keras.layers.Dense(2, activation="softmax") # output layer
@@ -49,6 +49,6 @@ cnn_model.compile(optimizer=tf.keras.optimizers.Adam(),
               metrics=["accuracy"])
 
 steps_per_epoch=tf.math.ceil(len(all_image_path)/BATCH_SIZE).numpy()
-cnn_model.fit(train_ds, epochs=5, steps_per_epoch=steps_per_epoch)
+cnn_model.fit(train_ds, epochs=16, steps_per_epoch=steps_per_epoch)
 
 cnn_model.save('classify_stars_and_galaxies.h5')
